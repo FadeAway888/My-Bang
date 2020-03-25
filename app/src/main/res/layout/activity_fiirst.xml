@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutTop"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#F0FFF0">
+
+        <TextView
+            android:id="@+id/textView_loca2"
+            android:background="#FFE4E1"
+            android:layout_width="30dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="loca2"
+            android:ems="1"/>
+        <TextView
+            android:id="@+id/textView_identify2"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/textView_loca2"
+            android:text="阵营:"
+            android:textSize="15dp"/>
+        <TextView
+            android:id="@+id/textView_life2"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/textView_loca2"
+            android:text="血量:"
+            android:textSize="15dp"/>
+        <ListView
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/listView_equip2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+
+
+        <TextView
+            android:id="@+id/textView_loca1"
+            android:background="#FFE4E1"
+            android:layout_width="30dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:text="loca1"/>
+        <TextView
+            android:id="@+id/textView_identify1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/textView_life1"
+            android:layout_marginBottom="30dp"
+            android:layout_toRightOf="@id/textView_loca1"
+            android:text="阵营:"
+            android:textSize="15dp"/>
+        <TextView
+            android:id="@+id/textView_life1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/textView_loca1"
+            android:text="血量:"
+            android:textSize="15dp"/>
+        <ListView
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/listView_equip1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+
+
+
+
+        <TextView
+            android:id="@+id/textView_loca3"
+            android:background="#FFE4E1"
+            android:layout_width="30dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:text="loca3"/>
+        <TextView
+            android:id="@+id/textView_identify3"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/textView_life3"
+            android:layout_marginBottom="30dp"
+            android:layout_toLeftOf="@id/textView_loca3"
+            android:text="阵营:"
+            android:textSize="15dp"/>
+        <TextView
+            android:id="@+id/textView_life3"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/textView_loca3"
+            android:text="血量:"
+            android:textSize="15dp"/>
+
+        <ListView
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/listView_equip3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/relativeLayoutBottom"
+        android:layout_below="@id/relativeLayoutTop">
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutBottom"
+        android:background="#F0FFF0"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@id/recycler_view">
+
+        <ListView
+            android:id="@+id/listView_equip0"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+        <TextView
+            android:id="@+id/textView_loca0"
+            android:background="#FFE4E1"
+            android:layout_width="30dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:text="loca0"/>
+        <TextView
+            android:id="@+id/textView_identify0"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/textView_life0"
+            android:layout_marginBottom="30dp"
+            android:layout_toLeftOf="@id/textView_loca0"
+            android:text="阵营:"
+            android:textSize="15dp"/>
+        <TextView
+            android:id="@+id/textView_life0"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_toLeftOf="@id/textView_loca0"
+            android:text="血量:"
+            android:textSize="15dp"/>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="130dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</RelativeLayout>
