@@ -102,16 +102,7 @@ public class Normal {
         if(cardList.size()>0){
             handCardList.add(cardList.get(0));
             cardList.remove(0);
-            //Log.e("handcard","***********************");
-            //for(int i = 0;i<this.handCardList.size();i++){
-             //   Log.e("handcard",handCardList.get(i).getName());
-            //}
             this.handCardList = sortHandCardList(this.handCardList);
-            //Log.e("handcard","***********************");
-            //for(int i = 0;i<this.handCardList.size();i++){
-             //   Log.e("handcard",handCardList.get(i).getName());
-            //}
-            //Log.e("handcard","***********************");
         }
         return cardList;
     }
@@ -135,15 +126,10 @@ public class Normal {
     public void bang(Normal normal){ //bang是对normal对象使用
         for(int i = 0;i<handCardList.size();i++){ //遍历手牌，找到一张bang
             if(handCardList.get(i).getKey()==1){
-                //Log.e("TEST", "handCardList.get(i) = "+handCardList.get(i).getName());
-                for(Card card:handCardList){
-                    Log.e("在bang函数里面，移除一张bang之前", card.getName());
-                }
+
                 handCardList.remove(i);
                 handCardList = sortHandCardList(handCardList);
-                for(Card card:handCardList){
-                    Log.e("在bang函数里面，移除一张bang之后", card.getName());
-                }
+
                 break;
             }
         }

@@ -71,19 +71,19 @@ public class MainActivity extends AppCompatActivity {
         // 从警长开始循环 （按 normals_id 的顺序
         Normal mNormal;
         for(;;){
-            for(int i = 0;i<4;i++){
-                overBang = false;
-                mNormal = normals_id.get(i);
+            for(int i = 0;i<4;i++){ //四个人轮流回合
+                overBang = false; //初始化该回合没用过bang
+                mNormal = normals_id.get(i); //mNormal是当前回合的normal
                 // 对mNormal进行摸牌 出牌 弃牌
                 //摸牌（两张）
                 cardList = mNormal.getCard(cardList);
                 cardList = mNormal.getCard(cardList);
-                if(mNormal.location == 0){ //如果是玩家
-                    showLoca0Cards(mNormal.handCardList);
-                    Toast.makeText(MainActivity.this,"你的出牌阶段",Toast.LENGTH_SHORT);
+                if(mNormal.location == 0){ //如果是自己
+                    showLoca0Cards(mNormal.handCardList); //抽完牌后更新玩家手牌显示
+                    //Toast.makeText(MainActivity.this,"你的出牌阶段",Toast.LENGTH_SHORT).show();
                     // 出牌阶段
                     playAHand(mNormal);
-                    showLoca0Cards(mNormal.handCardList);
+                    showLoca0Cards(mNormal.handCardList); //出完一回合牌后更新玩家手牌显示
                     //弃牌阶段
                     //TODO
                 }
@@ -96,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 出牌方法
     public void playAHand(final Normal mNormal){
         while (mNormal.handCardList.size()>0){ //只要有手牌，就循环出牌
+            Toast.makeText(MainActivity.this,"你的出牌阶段",Toast.LENGTH_SHORT).show();
             endPlayACard = false;
             alertDialog_index = 0;
             final int optionNum = mNormal.handCardList.size()+1; //选项数量是手牌数量加一
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     if(alertDialog_index>=0 && alertDialog_index<optionNum-1){//选的是牌
                         //Toast.makeText(MainActivity.this,"你选择了"+mNormal.handCardList.get(alertDialog_index).getName(),Toast.LENGTH_SHORT).show();
 
-                        Log.e("选牌型是",mNormal.handCardList.get(alertDialog_index).getName());
+                        Log.e("选的牌型是",mNormal.handCardList.get(alertDialog_index).getName());
 
                         if(!mNormal.haveShotgun && overBang && mNormal.handCardList.get(alertDialog_index).getKey()==1){ //没有霰弹枪还重复选bang
                             dialog.dismiss();
@@ -130,17 +132,17 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if(mNormal.handCardList.get(alertDialog_index).getKey()==2){ //主动选避开
                             dialog.dismiss();
-                            Log.e("点击确定","不能主动出避开哟");
+                            Log.e("点击确定","主动出避开了");
                         }
                         if(mNormal.handCardList.get(alertDialog_index).getKey()==3 && mNormal.getLife()==4){ //满血还补血
                             dialog.dismiss();
-                            Log.e("点击确定","生命值是满的喔，别喝酒了");
+                            Log.e("点击确定","满血补血了");
                         }
 
                         //Log.e("外面", "onClick: ");
                         if(mNormal.handCardList.get(alertDialog_index).getKey()==1){//选择出bang
                             if(mNormal.attackDistance == 1){
-                                Log.e("Main里 ", "选择出bang*（距离为1）");
+                                //Log.e("Main里 ", "选择出bang*（距离为1）");
                                 String[] str = new String[2];
                                 str[0] = "Local1";
                                 str[1] = "Local3";
@@ -186,9 +188,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             dialog.show();
-            Log.e("show?", "yes");
+            //Log.e("show?", "yes");
             if(endPlayACard) break;
-            Log.e("show?", "yes");
+            //Log.e("show?", "yes");
             showLoca0Cards(mNormal.handCardList);
             // TEST
             showEquip1(normals.get(1).handCardList);
@@ -420,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectNormal(final Normal mNormal, String[] str, final int strLen, final int cardid){
 
-        Log.e("selectNormal:", "进来了");
+
         
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("请选择您要选择作用的对象");
@@ -484,15 +486,23 @@ public class MainActivity extends AppCompatActivity {
             normals.add(new Normal(i,MainActivity.this,recyclerView));
         }
 
-        //随机给四个对象赋予身份
+        //随机给四个对象赋予身份 暂时让自己是警长
         List<Integer> identify_random = new ArrayList();
         identify_random.add(1);
         identify_random.add(3);
         identify_random.add(3);
         identify_random.add(4);
         Collections.shuffle(identify_random);
+
+        // DEBUG
+        normals.get(0).setIdentity(1);
+        normals.get(1).setIdentity(3);
+        normals.get(2).setIdentity(3);
+        normals.get(3).setIdentity(4);
+        // DEBUG
+
         for(int i = 0;i<4;i++){
-            normals.get(i).setIdentity(identify_random.get(i));
+            // normals.get(i).setIdentity(identify_random.get(i)); //这句话把 1 3 3 4 随机给四个人
             switch (normals.get(i).getIdentify()){
                 case 1:
                     textViewList_identify.get(i).append("警长");
@@ -509,8 +519,8 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     break;
             }
-            //textViewList_identify.get(i).append(String.valueOf(normals.get(i).getIdentify()));
         }
+        // 根据谁是警长为 normals_id 这个集合赋值，代表出牌次序
         for(int i = 0;i<4;i++){
             if(normals.get(i).getIdentify() == 1){
                 switch (i){
@@ -555,23 +565,17 @@ public class MainActivity extends AppCompatActivity {
         //洗牌
         Collections.shuffle(cardList);
         Collections.shuffle(cardList);
-        for(Card card:cardList){
-            Log.e("TEST",card.getName());
-        }
         // 四个角色抽血量张牌（利用 normal 的抽牌函数）
         for(int i = 0;i<4;i++){
             for(int j = 0;j<normals.get(i).life;j++){
-                cardList = normals.get(i).getCard(cardList);
+                cardList = normals.get(i).getCard(cardList);  //派牌时会自动为手牌排序
             }
         }
-        Log.e("TEST","---------------------------------------------------------------------------------------------------");
-        for(Card card:cardList){
-            Log.e("TEST",card.getName());
-        }
-        // 显示手牌
+        // 显示自己的手牌
         showLoca0Cards(normals.get(0).handCardList);
 
         // TEST
+        showEquip0(normals.get(0).handCardList);
         showEquip1(normals.get(1).handCardList);
         showEquip2(normals.get(2).handCardList);
         showEquip3(normals.get(3).handCardList);
@@ -580,12 +584,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    // 布局上显示（更新）玩家自己的手牌方法
+    // 布局上显示（更新）玩家自己的手牌方法 输入参数： 自己的 handCardList
     public void showLoca0Cards(List<Card> cardList){
         // *尝试不靠参数？* recycleView的更新问题？
-        for(Card card:cardList){
-            Log.e("更新玩家方法里 ", card.getName());
-        }
+
         CardAdapter adapter = new CardAdapter(cardList);
         recyclerView.setAdapter(adapter);
     }
