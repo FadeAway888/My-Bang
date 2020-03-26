@@ -117,10 +117,20 @@ public class MainActivity extends AppCompatActivity {
                     alertDialog_index = which;
                 }
             });
+
+            Log.e("test", "创建Alertialog实例之前 1");
+
             AlertDialog dialog = builder.create();
+
+            Log.e("test", "刚创建完Alertialog实例之后 2");
+
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
+                    Log.e("test", "点击确认之后里面执行的 6");
+
+
                     if(alertDialog_index>=0 && alertDialog_index<optionNum-1){//选的是牌
                         //Toast.makeText(MainActivity.this,"你选择了"+mNormal.handCardList.get(alertDialog_index).getName(),Toast.LENGTH_SHORT).show();
 
@@ -139,14 +149,19 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("点击确定","满血补血了");
                         }
 
-                        //Log.e("外面", "onClick: ");
+
                         if(mNormal.handCardList.get(alertDialog_index).getKey()==1){//选择出bang
                             if(mNormal.attackDistance == 1){
-                                //Log.e("Main里 ", "选择出bang*（距离为1）");
+
+                                Log.e("test", "准备进入selectNormal（）方法 7");
+
                                 String[] str = new String[2];
                                 str[0] = "Local1";
                                 str[1] = "Local3";
                                 selectNormal(mNormal,str,2,alertDialog_index);
+
+                                Log.e("test", "执行完selectNormal（）方法回来 8");
+
                             }
                             if(mNormal.attackDistance > 1){
                                 String[] str = new String[3];
@@ -187,18 +202,66 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
+            Log.e("test", "dialog.show()前面3");
+
             dialog.show();
-            //Log.e("show?", "yes");
+
+            Log.e("test", "dialog.show()后面 4");
+
             if(endPlayACard) break;
-            //Log.e("show?", "yes");
+
             showLoca0Cards(mNormal.handCardList);
             // TEST
             showEquip1(normals.get(1).handCardList);
             showEquip2(normals.get(2).handCardList);
             showEquip3(normals.get(3).handCardList);
+
+            Log.e("test", "执行return的上一句 5");
+
             return; //DEBUG
+
+            
         }
     }
+
+
+    public void selectNormal(final Normal mNormal, String[] str, final int strLen, final int cardid){ //这里的cardid只是在手牌中的序号
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请选择您要选择作用的对象");
+        builder.setSingleChoiceItems(str, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                attack_index = which;
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(strLen == 2){
+                    if(attack_index == 0)
+                        attackNormal = normals.get(1);
+                    if(attack_index == 1)
+                        attackNormal = normals.get(3);
+                }
+                if(strLen == 3){
+                    if(attack_index == 0)
+                        attackNormal = normals.get(1);
+                    if(attack_index == 1)
+                        attackNormal = normals.get(2);
+                    if(attack_index == 2)
+                        attackNormal = normals.get(3);
+                }
+                useCard(mNormal,attackNormal,cardid);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+
     public void useCard(Normal mNormal,Normal attackNormal,int which){ //真正用牌
 
         switch (mNormal.handCardList.get(which).getKey()){
@@ -420,42 +483,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void selectNormal(final Normal mNormal, String[] str, final int strLen, final int cardid){
 
-
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("请选择您要选择作用的对象");
-        builder.setSingleChoiceItems(str, 0, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                attack_index = which;
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(strLen == 2){
-                    if(attack_index == 0)
-                        attackNormal = normals.get(1);
-                    if(attack_index == 1)
-                        attackNormal = normals.get(3);
-                }
-                if(strLen == 3){
-                    if(attack_index == 0)
-                        attackNormal = normals.get(1);
-                    if(attack_index == 1)
-                        attackNormal = normals.get(2);
-                    if(attack_index == 2)
-                        attackNormal = normals.get(3);
-                }
-                useCard(mNormal,attackNormal,cardid);
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
 
     public void initiGame(){
 
